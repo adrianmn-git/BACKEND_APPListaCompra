@@ -27,11 +27,11 @@ def GetListsView(request):
 
     if request.method == 'GET':
         try:
-            lists = ShoppingList.objects.all().order_by("-created_at")
+            shoppinglists = ShoppingList.objects.all().order_by("-created_at")
         except ShoppingList.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        serializer = ShoppingListSerializer(lists, many=True)
+        serializer = ShoppingListSerializer(shoppinglists, many=True)
         return Response(serializer.data)
 
     return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -41,11 +41,11 @@ def GetListView(request, list_id):
 
     if request.method == 'GET':
         try:
-            list = ShoppingList.objects.get(pk=list_id)
+            shoppinglist = ShoppingList.objects.get(pk=list_id)
         except ShoppingList.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        serializer = ShoppingListSerializer(list)
+        serializer = ShoppingListSerializer(shoppinglist)
         return Response(serializer.data)
 
     return Response(status=status.HTTP_400_BAD_REQUEST)
