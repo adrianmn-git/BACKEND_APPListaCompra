@@ -23,7 +23,7 @@ def CreateListView(request):
 
 
 @api_view(["GET"])
-def GetListView(request):
+def GetListsView(request):
 
     if request.method == 'GET':
         try:
@@ -32,6 +32,20 @@ def GetListView(request):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         serializer = ShoppingListSerializer(lists, many=True)
+        return Response(serializer.data)
+
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(["GET"])
+def GetListView(request, list_id):
+
+    if request.method == 'GET':
+        try:
+            list = ShoppingList.objects.get(pk=list_id)
+        except ShoppingList.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = ShoppingListSerializer(list)
         return Response(serializer.data)
 
     return Response(status=status.HTTP_400_BAD_REQUEST)
